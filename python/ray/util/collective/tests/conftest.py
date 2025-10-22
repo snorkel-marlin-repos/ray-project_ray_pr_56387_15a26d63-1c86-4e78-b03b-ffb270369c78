@@ -2,7 +2,6 @@
 import logging
 
 import pytest
-
 import ray
 from ray.util.collective.collective_group.nccl_collective_group import (
     _get_comm_key_from_devices,

@@ -1,5 +1,4 @@
-from typing import TYPE_CHECKING, Dict, Optional, Union
-
+from typing import Dict, Union, Optional, TYPE_CHECKING
 from ray.util.annotations import PublicAPI
 
 if TYPE_CHECKING:

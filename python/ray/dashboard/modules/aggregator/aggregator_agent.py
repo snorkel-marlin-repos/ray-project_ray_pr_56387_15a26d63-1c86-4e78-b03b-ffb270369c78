@@ -1,17 +1,15 @@
 import asyncio
-import json
-import logging
-import os
-import queue
 import signal
-import threading
 import time
+import os
+import json
+import queue
 from concurrent.futures import ThreadPoolExecutor
-
+import threading
+import logging
+from urllib3.util import Retry
 from requests import Session
 from requests.adapters import HTTPAdapter
-from urllib3.util import Retry
-
 from ray._private.protobuf_compat import message_to_json
 
 try:
@@ -21,14 +19,14 @@ except ImportError:
     prometheus_client = None
 
 import ray
-import ray.dashboard.consts as dashboard_consts
-import ray.dashboard.utils as dashboard_utils
 from ray._common.utils import get_or_create_event_loop
 from ray._private import ray_constants
+import ray.dashboard.utils as dashboard_utils
+import ray.dashboard.consts as dashboard_consts
 from ray.core.generated import (
-    events_base_event_pb2,
     events_event_aggregator_service_pb2,
     events_event_aggregator_service_pb2_grpc,
+    events_base_event_pb2,
 )
 
 logger = logging.getLogger(__name__)
