@@ -71,7 +71,7 @@ def Deprecated(old=None, *, new=None, help=None, error):
     .. testcode::
         :skipif: True
 
-        from ray._common.deprecation import Deprecated
+        from ray.rllib.utils.deprecation import Deprecated
         # Deprecated class: Patches the constructor to warn if the class is
         # used.
         @Deprecated(new="NewAndMuchCoolerClass", error=False)

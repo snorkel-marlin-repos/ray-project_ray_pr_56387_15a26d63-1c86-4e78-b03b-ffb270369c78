@@ -1,7 +1,6 @@
 """Some utility class for Collectives."""
-import logging
-
 import ray
+import logging
 
 logger = logging.getLogger(__name__)
 

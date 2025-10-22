@@ -1,5 +1,4 @@
 from typing import Optional
-
 from ray._private.accelerators import TPUAcceleratorManager
 from ray.util.annotations import PublicAPI
 

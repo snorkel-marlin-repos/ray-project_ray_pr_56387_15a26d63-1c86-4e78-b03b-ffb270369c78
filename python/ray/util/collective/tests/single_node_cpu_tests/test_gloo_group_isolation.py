@@ -1,10 +1,8 @@
-import time
-
-from python.ray.util.collective.collective_group.gloo_collective_group import GLOOGroup
 from python.ray.util.collective.types import Backend
-
+from python.ray.util.collective.collective_group.gloo_collective_group import GLOOGroup
 import ray
 import ray.util.collective as col
+import time
 
 
 @ray.remote
@@ -59,8 +57,7 @@ def test_failure_when_initializing(shutdown_only):
 
 
 if __name__ == "__main__":
-    import sys
-
     import pytest
+    import sys
 
     sys.exit(pytest.main(["-v", "-x", __file__]))

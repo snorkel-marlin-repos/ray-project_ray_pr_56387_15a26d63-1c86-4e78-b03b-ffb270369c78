@@ -18,11 +18,9 @@ class TestCoreContextFilter:
         filter = CoreContextFilter()
         record = logging.makeLogRecord({})
         assert filter.filter(record)
-        # Ray is not initialized so no context except PID which should be available
+        # Ray is not initialized so no context
         for attr in log_context:
             assert not hasattr(record, attr)
-        # PID should be available even when Ray is not initialized
-        assert hasattr(record, "process")
         assert hasattr(record, "_ray_timestamp_ns")
 
         ray.init()
@@ -33,7 +31,6 @@ class TestCoreContextFilter:
             "job_id": runtime_context.get_job_id(),
             "worker_id": runtime_context.get_worker_id(),
             "node_id": runtime_context.get_node_id(),
-            "process": record.process,
         }
         for attr in log_context:
             assert hasattr(record, attr)
@@ -49,7 +46,7 @@ class TestCoreContextFilter:
             filter = CoreContextFilter()
             record = logging.makeLogRecord({})
             assert filter.filter(record)
-            should_exist = ["job_id", "worker_id", "node_id", "task_id", "process"]
+            should_exist = ["job_id", "worker_id", "node_id", "task_id"]
             runtime_context = ray.get_runtime_context()
             expected_values = {
                 "job_id": runtime_context.get_job_id(),
@@ -58,7 +55,6 @@ class TestCoreContextFilter:
                 "task_id": runtime_context.get_task_id(),
                 "task_name": runtime_context.get_task_name(),
                 "task_func_name": runtime_context.get_task_function_name(),
-                "process": record.process,
             }
             for attr in should_exist:
                 assert hasattr(record, attr)
@@ -77,14 +73,7 @@ class TestCoreContextFilter:
                 filter = CoreContextFilter()
                 record = logging.makeLogRecord({})
                 assert filter.filter(record)
-                should_exist = [
-                    "job_id",
-                    "worker_id",
-                    "node_id",
-                    "actor_id",
-                    "task_id",
-                    "process",
-                ]
+                should_exist = ["job_id", "worker_id", "node_id", "actor_id", "task_id"]
                 runtime_context = ray.get_runtime_context()
                 expected_values = {
                     "job_id": runtime_context.get_job_id(),
@@ -95,7 +84,6 @@ class TestCoreContextFilter:
                     "task_id": runtime_context.get_task_id(),
                     "task_name": runtime_context.get_task_name(),
                     "task_func_name": runtime_context.get_task_function_name(),
-                    "process": record.process,
                 }
                 for attr in should_exist:
                     assert hasattr(record, attr)
@@ -114,7 +102,6 @@ class TestJSONFormatter:
 
         record_dict = json.loads(formatted)
         should_exist = [
-            "process",
             "asctime",
             "levelname",
             "message",
@@ -137,7 +124,6 @@ class TestJSONFormatter:
         formatted = formatter.format(record)
         record_dict = json.loads(formatted)
         should_exist = [
-            "process",
             "asctime",
             "levelname",
             "message",
@@ -157,7 +143,6 @@ class TestJSONFormatter:
         formatted = formatter.format(record)
         record_dict = json.loads(formatted)
         should_exist = [
-            "process",
             "asctime",
             "levelname",
             "message",
@@ -186,7 +171,6 @@ class TestJSONFormatter:
         formatted = formatter.format(record)
         record_dict = json.loads(formatted)
         should_exist = [
-            "process",
             "asctime",
             "levelname",
             "message",
@@ -212,7 +196,6 @@ class TestJSONFormatter:
 
         record_dict = json.loads(formatted)
         should_exist = [
-            "process",
             "asctime",
             "levelname",
             "message",
